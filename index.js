@@ -1,8 +1,17 @@
 import express from "express";
 import "dotenv/config";
 import { dbConnection } from "./config/db.js";
+import { userRouter } from "./routes/user_router.js";
+import { taskRouter } from "./routes/task_router.js";
 
 const app = express();
+
+// Apply middlewares
+app.use(express.json())
+
+// Use routes
+app.use('/api/v1', userRouter)
+app.use('/api/v1', taskRouter)
 
 // Connect to database
 dbConnection();
