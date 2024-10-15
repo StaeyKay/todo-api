@@ -46,7 +46,7 @@ export const updateTask = async (req, res) => {
             return res.status(400).json({message: 'User not found'})
         }
     
-        const task = await TaskModel.findByIdAndUpdate(req.params.id, value, {new: true})
+        const task = await TaskModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
         if(!task) {
             return res.status(404).json('Task not found')
         }
