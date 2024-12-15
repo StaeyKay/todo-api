@@ -7,7 +7,7 @@ import { taskRouter } from "./routes/task_router.js";
 
 const app = express();
 
-// Apply middlewares
+// Apply middleware
 app.use(express.json());
 app.use(cors({ Credentials: true, origin: "*" }));
 

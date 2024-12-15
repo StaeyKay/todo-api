@@ -25,9 +25,9 @@ export const loginValidator = z.object(
 export const taskValidator = z.object(
     {
         title: z.string({required_error: "title is required"}),
-        description: z.string({required_error: "description is required"}),
-        status: z.string({required_error: "status is required"}),
-        priority: z.string({required_error: "priority is required"}),
-        due_date: z.string({required_error: "due date is required"})
+        description: z.string({required_error: "description is required"}).optional(),
+        status: z.string({required_error: "status is required"}).optional(),
+        priority: z.string({required_error: "priority is required"}).optional(),
+        due_date: z.string({required_error: "due date is required"}).optional()
     }
 )

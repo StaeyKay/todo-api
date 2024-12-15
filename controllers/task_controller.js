@@ -17,17 +17,14 @@ export const addTask = async (req, res) => {
         const task = validationResult.data
     
         // Check if user exists
-        const userId = req.user?.id
+        // const userId = req.user?.id
     
-        const user = await UserModel.findById(userId)
-        if(!user) {
-            return res.status(400).json('User not found')
-        }
+        // const user = await UserModel.findById(userId)
+        // if(!user) {
+        //     return res.status(400).json('User not found')
+        // }
     
-        const newTask = await TaskModel.create({
-            ...task,
-            user: userId
-        })
+        const newTask = await TaskModel.create(task)
 
         return res.status(200).json({message: 'New task has been added successfully'})
     } catch (error) {
@@ -39,12 +36,12 @@ export const addTask = async (req, res) => {
 export const updateTask = async (req, res) => {
     try {
         // Check if user exists
-        const userId = req.user?.id;
+        // const userId = req.user?.id;
     
-        const user = await UserModel.findById(userId)
-        if(!user) {
-            return res.status(400).json({message: 'User not found'})
-        }
+        // const user = await UserModel.findById(userId)
+        // if(!user) {
+        //     return res.status(400).json({message: 'User not found'})
+        // }
     
         const task = await TaskModel.findByIdAndUpdate(req.params.id, req.body, {new: true})
         if(!task) {
@@ -65,11 +62,11 @@ export const updateTask = async (req, res) => {
 export const getTask = async (req, res) => {
     try {
         // Check if user exists
-        const userId = req.user?.id;
-        const user = await UserModel.findById(userId)
-        if(!user) {
-            return res.status(400).json('User not found')
-        }
+        // const userId = req.user?.id;
+        // const user = await UserModel.findById(userId)
+        // if(!user) {
+        //     return res.status(400).json('User not found')
+        // }
     
         const task = await TaskModel.findById(req.params.id);
         if(!task) {
@@ -86,16 +83,31 @@ export const getTask = async (req, res) => {
 export const getTasks = async (req, res) => {
     try {
         // Check if user exists
-        const userId = req.user?.id;
-        const user = UserModel.findById(userId)
-        if(!user) {
-            return res.status(400).json('User not found')
-        }
+        // const userId = req.user?.id;
+        // const user = UserModel.findById(userId)
+        // if(!user) {
+        //     return res.status(400).json('User not found')
+        // }
     
-        const tasks = await TaskModel.find({user: userId})
+        const tasks = await TaskModel.find()
     
         return res.status(200).json(tasks)
     } catch (error) {
         return res.status(500).json({error: error.message})
+    }
+}
+
+// Endpoint to delete a task
+export const deleteTask = async (req, res) => {
+    try {
+        const task = await TaskModel.findByIdAndDelete(req.params.id)
+        if(!task) {
+            return res.status(400).json('Task not found')
+        }
+    
+        res.status(200).json('Task has been deleted successfully')
+    } catch (error) {
+        console.log(error.message)
+        return res.status(500).json(error.message)
     }
 }
